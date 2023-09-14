@@ -1,4 +1,48 @@
 import matplotlib.pyplot as plt
+import sqlite3
+
+
+def printRes(r):
+    for l in r:
+        print(l)
+    print()
+
+
+if __name__ == "__main__":
+    connection = sqlite3.connect(r".\climate.db")
+    cursor = connection.cursor()
+
+    sql_cmd = """
+        SELECT name FROM sqlite_master WHERE type='table';
+        """
+    cursor.execute(sql_cmd)
+    res = cursor.fetchall()
+    print(res)
+
+    for table_info in res:
+        table_name = table_info[0]
+        sql_cmd = f"""
+        SELECT * FROM {table_name}
+        """
+        cursor.execute(sql_cmd)
+        column_names = sqlite3.Row(cursor, (1,)).keys()
+        print(f'{table_name}: {column_names}')
+    print()
+
+    sql_cmd = """
+        SELECT * FROM ClimateData WHERE Year = 1950;
+        """
+    cursor.execute(sql_cmd)
+    res = cursor.fetchall()
+    printRes(res)
+
+    sql_cmd = """
+        SELECT * FROM ClimateData WHERE Temperature > 10;
+        """
+    cursor.execute(sql_cmd)
+    res = cursor.fetchall()
+    printRes(res)
+
         
 years = []
 co2 = []

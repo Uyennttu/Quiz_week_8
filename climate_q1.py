@@ -43,6 +43,13 @@ if __name__ == "__main__":
     res = cursor.fetchall()
     printRes(res)
 
+    sql_cmd = """
+            SELECT Min(CO2), MAX(CO2), AVG(CO2) FROM ClimateData;
+            """
+    cursor.execute(sql_cmd)
+    res = cursor.fetchall()
+    printRes(res)
+
         
 years = []
 co2 = []
